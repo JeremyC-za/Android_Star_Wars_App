@@ -40,11 +40,5 @@ public class SwapiCommunicator extends AsyncTask<String, Void, String> {
         }
 
     }
-
-//    protected void onPostExecute(String result){
-//        System.out.println("post execute stuff");
-//    }
-
-
 }
 
