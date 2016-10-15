@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_movie_detail_screen"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:scrollbars="horizontal"
+    android:id="@+id/ScrollView">
+
+
+<RelativeLayout
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_movie_detail_screen"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -11,4 +20,50 @@
     tools:context="com.example.starwarsapp.MovieDetailScreen">
 
 
+    <TextView
+        android:text="Release Date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/releaseView"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:layout_below="@+id/titleView"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:text="Movie Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/titleView"
+        android:gravity="center"
+        android:textSize="30sp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:text="Crawl Text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/crawlView"
+        android:gravity="center"
+        android:textSize ="16sp"
+        android:layout_below="@+id/characterView"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="14dp"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:text="Characters"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/releaseView"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:id="@+id/characterView"
+        tools:text="Characters" />
+
+
 </RelativeLayout>
+</ScrollView>

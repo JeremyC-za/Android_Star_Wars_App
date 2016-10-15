@@ -1,6 +1,7 @@
 package com.example.starwarsapp;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.content.Context;
+import android.widget.Toast;
 
 public class LandingScreen extends AppCompatActivity {
 
@@ -37,7 +39,6 @@ public class LandingScreen extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String movieSelected = String.valueOf(movieAdapter.getItem(position));
-
                 Intent intent = new Intent(ctx, MovieDetailScreen.class);
                 intent.putExtra(EXTRA_MESSAGE, movieSelected);
                 startActivity(intent);

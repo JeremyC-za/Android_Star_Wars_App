@@ -1,10 +1,17 @@
 package com.example.starwarsapp;
 
+import android.animation.ObjectAnimator;
 import android.content.Intent;
+import android.graphics.Typeface;
+import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MotionEvent;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -64,11 +71,53 @@ public class MovieDetailScreen extends AppCompatActivity {
         try {
             String info = new SwapiCommunicator().execute(urlString).get();
             JSONObject parentObject = new JSONObject(info);
+            Typeface custom_font = Typeface.createFromAsset(getAssets(),  "fonts/Starjedi.ttf");  // custom pretty star wars font
 
-            String title = extractTitle(parentObject);
-            String release = extractRelease(parentObject);
-            String crawl = extractCrawl(parentObject);
-            String[] characters = extractCharacters(parentObject);
+            String title = extractTitle(parentObject).toLowerCase();  // upper case characters messes up the font
+            TextView movieTitle = (TextView) findViewById(R.id.titleView);
+            movieTitle.setTypeface(custom_font);
+            movieTitle.setText(title);
+
+            String release = extractRelease(parentObject).toLowerCase();
+            TextView releaseDate = (TextView) findViewById(R.id.releaseView);
+            releaseDate.setTypeface(custom_font);
+            releaseDate.setText(release);
+
+            String characters = extractCharacters(parentObject);
+            TextView allCharacters = (TextView) findViewById(R.id.characterView);
+            allCharacters.setTypeface(custom_font);
+            allCharacters.setText(characters);
+
+            String crawl = extractCrawl(parentObject).toLowerCase();
+            TextView crawlText = (TextView) findViewById(R.id.crawlView);
+            crawlText.setTypeface(custom_font);
+            crawlText.setText(crawl);
+
+            final ScrollView scrView = (ScrollView)findViewById(R.id.ScrollView);
+
+            final CountDownTimer scroller = new CountDownTimer(200000, 20) {
+                public void onTick(long millisUntilFinished) {
+                    scrView.smoothScrollBy(0, 2);
+//                    if (scrView.getScrollY() >= scrView.getBottom()){    // for some reason scrView.getBottom() sometimes == 0...
+//                        System.out.println("scrView.getBottom() = " + scrView.getBottom());
+//                        cancel();  // so this probably would be more efficient... but for some reason it works sometimes, and doesn't work at other times
+//                    }
+                }
+                public void onFinish() {}
+            };
+            scroller.start();
+
+            RelativeLayout rl = (RelativeLayout)findViewById(R.id.activity_movie_detail_screen);
+            rl.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    scroller.cancel();
+                    return false;
+                }
+            });
+
+
+
 
 
         } catch (Exception e) {
@@ -91,17 +140,16 @@ public class MovieDetailScreen extends AppCompatActivity {
         return crawl;
     }
 
-    private String[] extractCharacters(JSONObject json) throws JSONException, ExecutionException, InterruptedException {
+    private String extractCharacters(JSONObject json) throws JSONException, ExecutionException, InterruptedException {
         JSONArray chars = json.getJSONArray("characters");
-        String[] characters = new String[chars.length()];
+        String characters = "";
 
         for (int i = 0; i < chars.length(); i++){
             String characterURL = chars.getString(i);
             String characterInfo = new SwapiCommunicator().execute(characterURL).get();
             JSONObject obj = new JSONObject(characterInfo);
-            String name = obj.getString("name");
-            characters[i] = name;
-            System.out.println("Setting characters[" + i + "] to equal " + name);
+            String name = obj.getString("name").toLowerCase();
+            characters += name + "\n";
         }
         return characters;
     }
