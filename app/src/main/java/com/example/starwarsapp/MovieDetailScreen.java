@@ -69,25 +69,30 @@ public class MovieDetailScreen extends AppCompatActivity {
         }
 
         try {
+            // Getting all the info and storing it as a JSON object
             String info = new SwapiCommunicator().execute(urlString).get();
             JSONObject parentObject = new JSONObject(info);
             Typeface custom_font = Typeface.createFromAsset(getAssets(),  "fonts/Starjedi.ttf");  // custom pretty star wars font
 
+            // Extracting the title and displaying it
             String title = extractTitle(parentObject).toLowerCase();  // upper case characters messes up the font
             TextView movieTitle = (TextView) findViewById(R.id.titleView);
             movieTitle.setTypeface(custom_font);
             movieTitle.setText(title);
 
+            // Extracting the release date and displaying it
             String release = extractRelease(parentObject).toLowerCase();
             TextView releaseDate = (TextView) findViewById(R.id.releaseView);
             releaseDate.setTypeface(custom_font);
             releaseDate.setText(release);
 
+            // Extracting the characters and displaying them... this slows down the app
             String characters = extractCharacters(parentObject);
             TextView allCharacters = (TextView) findViewById(R.id.characterView);
             allCharacters.setTypeface(custom_font);
             allCharacters.setText(characters);
 
+            // Extracting and displaying the crawl text
             String crawl = extractCrawl(parentObject).toLowerCase();
             TextView crawlText = (TextView) findViewById(R.id.crawlView);
             crawlText.setTypeface(custom_font);
@@ -97,7 +102,7 @@ public class MovieDetailScreen extends AppCompatActivity {
 
             final CountDownTimer scroller = new CountDownTimer(200000, 20) {
                 public void onTick(long millisUntilFinished) {
-                    scrView.smoothScrollBy(0, 2);
+                    scrView.smoothScrollBy(0, 2); // Slowly scrolls the screen downwards
 //                    if (scrView.getScrollY() >= scrView.getBottom()){    // for some reason scrView.getBottom() sometimes == 0...
 //                        System.out.println("scrView.getBottom() = " + scrView.getBottom());
 //                        cancel();  // so this probably would be more efficient... but for some reason it works sometimes, and doesn't work at other times
@@ -111,14 +116,10 @@ public class MovieDetailScreen extends AppCompatActivity {
             rl.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
-                    scroller.cancel();
+                    scroller.cancel();  // Stops scrolling if the user interacts with the screen
                     return false;
                 }
             });
-
-
-
-
 
         } catch (Exception e) {
             e.printStackTrace();

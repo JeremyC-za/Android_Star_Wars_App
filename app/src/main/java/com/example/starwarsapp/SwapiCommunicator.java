@@ -33,7 +33,6 @@ public class SwapiCommunicator extends AsyncTask<String, Void, String> {
 
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("ERROR:" + e);
             return null;
         }
 
